@@ -26,12 +26,16 @@ public class ftable{
 
   private BufferedReader read = null;
   private BufferedWriter write = null;
-  private int total_num; 
+  //total number of characters
+  private int total_num;  
+  //once some characters are removed, we need to store the remaining
   private String shortened_input = "";
 
   public static void main(String[] args){
     boolean verbose = false;
-    int num_to_skip = 0;
+    //number of characters to skip at the beginning of the string
+    int num_to_skip = 0; 
+    //skip ever n characters
     int num_period = 1;
     String input_file = null;
     String output_file = null;
@@ -366,6 +370,7 @@ public class ftable{
     String[] alphabet = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K",
                          "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
                          "W", "X", "Y", "Z"};
+    //convert to uppercase
     input = input.toUpperCase();
 
     if ( verbose ) {
@@ -381,7 +386,6 @@ public class ftable{
     }
 
     //Remove spaces
-//    input = input.replaceAll("[ \n]", "");
     input = input.replaceAll("[^A-Za-z]", "");    
     
     for ( int i = num_to_skip; i < input.length(); i+=num_period  ){
@@ -414,12 +418,15 @@ public class ftable{
   }
 
   /**
-   * Prints final output
+   * Prints final output including the frequency count for each 
+   * character and then finally prints the index of coincidence
+   * for all the characters in the inptu text.
    *@param table takes in map of character frequencies
    */
   private void print_output(LinkedHashMap<String, Integer> table){
     System.out.printf("Total chars: %d\n", total_num);
 
+    //if total_num is 0, then we divide by 0, which we don't want
     if ( total_num == 0 ) {
       total_num = 1;
     }
@@ -438,13 +445,10 @@ public class ftable{
     // print IC
     ic ic_gen = new ic();
 
-    //input = input.replaceAll("[^A-Za-z]", "");
-
+    //gets the index of coincidence for the input text
     double ic_val = ic_gen.calc_ic(shortened_input, shortened_input.length());
 
     System.out.printf("\nIndex of Coincidence: %5.4f \n", ic_val);
 
   }
-
-
 }//end of class
